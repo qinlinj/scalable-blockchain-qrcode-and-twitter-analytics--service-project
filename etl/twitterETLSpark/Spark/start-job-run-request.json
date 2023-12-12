@@ -1,0 +1,33 @@
+{
+  "name": "twitteretl",
+  "virtualClusterId": "123456",
+  "executionRoleArn": "iam_role_name_for_job_execution",
+  "releaseLabel": "emr-6.2.0-latest",
+  "jobDriver": {
+    "sparkSubmitJobDriver": {
+      "entryPoint": "entryPoint_location",
+      "entryPointArguments": ["wasb://datasets@clouddeveloper.blob.core.windows.net/twitter-dataset/part-r-00000.gz"],
+      "sparkSubmitParameters": "--class <main_class> --conf spark.executor.instances=2 --conf spark.executor.memory=2G --conf spark.executor.cores=2 --conf spark.driver.cores=1"
+    }
+  },
+  "configurationOverrides": {
+    "applicationConfiguration": [
+      {
+        "classification": "spark-defaults",
+        "properties": {
+          "spark.driver.memory":"2G"
+        }
+      }
+    ],
+    "monitoringConfiguration": {
+      "persistentAppUI": "ENABLED",
+      "cloudWatchMonitoringConfiguration": {
+        "logGroupName": "my_log_group",
+        "logStreamNamePrefix": "log_stream_prefix"
+      },
+      "s3MonitoringConfiguration": {
+        "logUri": "s3://my_s3_log_location"
+      }
+    }
+  }
+}

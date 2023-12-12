@@ -1,0 +1,34 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-test
+  annotations:
+    kubernetes.io/ingress.class: alb
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /qrcode
+        pathType: Prefix
+        backend:
+          service:
+            name: qr-code-service
+            port:
+              number: 80
+      - path: /blockchain
+        pathType: Prefix
+        backend:
+          service:
+            name: blc-service
+            port:
+              number: 80
+      - path: /twitter
+        pathType: Prefix
+        backend:
+          service:
+            name: twitter-service
+            port:
+              number: 80
+

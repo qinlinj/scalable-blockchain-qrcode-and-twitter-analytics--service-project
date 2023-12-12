@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: blc-service
+spec:
+  selector:
+    app: blc
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 8080
+  type: NodePort

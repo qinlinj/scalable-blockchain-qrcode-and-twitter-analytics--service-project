@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: blc-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: blc
+  template:
+    metadata:
+      labels:
+        app: blc
+    spec:
+      containers:
+        - name: blc-container
+          image: 146445828406.dkr.ecr.us-east-1.amazonaws.com/cc:blockchain-vertx
+          ports:
+            - containerPort: 8080
+          resources:
+            requests:
+              cpu: 200m
+---
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: blc-autoscaling
+  namespace: default
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: blc-deployment
+  minReplicas: 5
+  maxReplicas: 21
+  targetCPUUtilizationPercentage: 70
